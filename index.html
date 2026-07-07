@@ -380,6 +380,7 @@
     position:absolute;left:-12%;right:-12%;bottom:-4px;height:47%;
     background:linear-gradient(180deg,#3FA268,#1B5C3A);
     border-radius:100% 100% 0 0;
+    z-index:1;
   }
   .field-moon{
     position:absolute;top:20px;left:20px;width:44px;height:44px;border-radius:50%;
@@ -394,7 +395,7 @@
     box-shadow:0 0 11px 4px rgba(232,240,120,.85);
     animation:fly ease-in-out infinite alternate}
   @keyframes fly{from{transform:translate(0,0)}to{transform:translate(28px,-32px)}}
-  .garland{position:absolute;left:0;right:0;height:46px;z-index:3;pointer-events:none}
+  .garland{position:absolute;left:0;right:0;height:46px;z-index:95;pointer-events:none}
   .bulb{position:absolute;width:10px;height:10px;border-radius:50%;
     animation:bulbtw 1.6s ease-in-out infinite alternate}
   @keyframes bulbtw{from{opacity:.5;box-shadow:0 0 4px 1px currentColor}to{opacity:1;box-shadow:0 0 14px 5px currentColor}}
@@ -415,7 +416,7 @@
     text-align:center;font-size:14px;font-weight:bold;box-shadow:var(--shadow);
   }
   .today-note{text-align:center;font-size:12.5px;color:var(--sub);font-weight:bold;margin-top:8px}
-  .decor{position:absolute;pointer-events:none;line-height:1;z-index:1;
+  .decor{position:absolute;pointer-events:none;line-height:1;z-index:300;
     filter:drop-shadow(0 2px 3px rgba(0,0,0,.12))}
   @keyframes drift{from{transform:translate(0,0) rotate(-5deg)}to{transform:translate(30px,-16px) rotate(6deg)}}
   @keyframes ffall2{0%{transform:translateY(-36px) rotate(0deg)}100%{transform:translateY(400px) rotate(220deg)}}
@@ -1246,7 +1247,7 @@ function garland(top){
 }
 function emojiDecor(ch, left, top, size, anim, dur, delay){
   var timing = anim==="ffall2" ? "linear infinite" : "ease-in-out infinite alternate";
-  return '<div class="decor" style="left:'+left+'%;top:'+top+'%;font-size:'+size+'px;'+
+  return '<div class="decor" style="left:'+left+'%;top:'+top+'%;font-size:'+size+'px;z-index:300;'+
     'animation:'+anim+' '+dur+'s '+timing+';animation-delay:'+delay+'s">'+ch+'</div>';
 }
 function starDots(count, color){
