@@ -1,0 +1,56 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF6FA"/>
+      <stop offset="1" stop-color="#FFE9F3"/>
+    </linearGradient>
+    <linearGradient id="petal" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#FF9BC4"/>
+      <stop offset="1" stop-color="#FFD1E4"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFF3B0"/>
+      <stop offset="1" stop-color="#FFB93D"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="512" height="512" rx="112" ry="112" fill="url(#bg)"/>
+
+  <circle cx="256" cy="256" r="150" fill="none" stroke="#FFD1E4" stroke-width="8"/>
+
+  <g transform="translate(256,256)">
+    <g transform="rotate(0)">
+      <path d="M0 0 C 30 -35.4, 12 -100.3, 0 -118 C -12 -100.3, -30 -35.4, 0 0 Z" fill="url(#petal)"/>
+      <path d="M0 -17.7 Q 0 -59 0 -100.3" stroke="rgba(255,255,255,0.75)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <g transform="rotate(45)">
+      <path d="M0 0 C 30 -35.4, 12 -100.3, 0 -118 C -12 -100.3, -30 -35.4, 0 0 Z" fill="url(#petal)"/>
+      <path d="M0 -17.7 Q 0 -59 0 -100.3" stroke="rgba(255,255,255,0.75)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <g transform="rotate(90)">
+      <path d="M0 0 C 30 -35.4, 12 -100.3, 0 -118 C -12 -100.3, -30 -35.4, 0 0 Z" fill="url(#petal)"/>
+      <path d="M0 -17.7 Q 0 -59 0 -100.3" stroke="rgba(255,255,255,0.75)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <g transform="rotate(135)">
+      <path d="M0 0 C 30 -35.4, 12 -100.3, 0 -118 C -12 -100.3, -30 -35.4, 0 0 Z" fill="url(#petal)"/>
+      <path d="M0 -17.7 Q 0 -59 0 -100.3" stroke="rgba(255,255,255,0.75)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <g transform="rotate(180)">
+      <path d="M0 0 C 30 -35.4, 12 -100.3, 0 -118 C -12 -100.3, -30 -35.4, 0 0 Z" fill="url(#petal)"/>
+      <path d="M0 -17.7 Q 0 -59 0 -100.3" stroke="rgba(255,255,255,0.75)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <g transform="rotate(225)">
+      <path d="M0 0 C 30 -35.4, 12 -100.3, 0 -118 C -12 -100.3, -30 -35.4, 0 0 Z" fill="url(#petal)"/>
+      <path d="M0 -17.7 Q 0 -59 0 -100.3" stroke="rgba(255,255,255,0.75)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <g transform="rotate(270)">
+      <path d="M0 0 C 30 -35.4, 12 -100.3, 0 -118 C -12 -100.3, -30 -35.4, 0 0 Z" fill="url(#petal)"/>
+      <path d="M0 -17.7 Q 0 -59 0 -100.3" stroke="rgba(255,255,255,0.75)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <g transform="rotate(315)">
+      <path d="M0 0 C 30 -35.4, 12 -100.3, 0 -118 C -12 -100.3, -30 -35.4, 0 0 Z" fill="url(#petal)"/>
+      <path d="M0 -17.7 Q 0 -59 0 -100.3" stroke="rgba(255,255,255,0.75)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <circle cx="0" cy="0" r="22" fill="url(#core)"/>
+  </g>
+</svg>
