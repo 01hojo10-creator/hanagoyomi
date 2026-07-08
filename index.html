@@ -365,6 +365,56 @@
   }
   .treasure-title{font-size:15px;font-weight:bold;letter-spacing:.2em;margin:22px 0 10px;text-align:center;color:#D9880F}
   .treasures{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+
+  /* ---- お花畑:こよみ表示 ---- */
+  .cal-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin:2px 0 10px}
+  .cal-nav-btn{
+    appearance:none;border:none;cursor:pointer;
+    width:34px;height:34px;border-radius:50%;
+    background:linear-gradient(135deg,var(--pink-hi),var(--purple));
+    color:#fff;font-size:14px;font-weight:bold;
+    box-shadow:0 4px 10px rgba(255,77,141,.35);
+  }
+  .cal-nav-btn:disabled{opacity:.35;box-shadow:none;cursor:default}
+  .cal-month-label{
+    min-width:110px;text-align:center;font-size:17px;font-weight:bold;
+    background:linear-gradient(135deg,var(--pink),var(--purple));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:5px}
+  .cal-wd{text-align:center;font-size:11px;font-weight:bold;color:var(--sub)}
+  .cal-wd:first-child{color:#FF6B9B}
+  .cal-wd:last-child{color:#5C9BE8}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+  .cal-cell{
+    position:relative;aspect-ratio:1/1;border-radius:12px;
+    background:var(--card);
+    box-shadow:0 3px 8px rgba(155,92,246,.10);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .cal-cell.empty{background:transparent;box-shadow:none}
+  .cal-cell .cal-day-num{
+    position:absolute;left:3px;top:2px;font-size:9.5px;font-weight:bold;color:var(--sub);
+    z-index:2;
+  }
+  .cal-cell.has-flower{
+    background:radial-gradient(circle at 50% 40%,#FFF6FB,#FFE9F3);
+    cursor:pointer;
+  }
+  .cal-cell.has-flower .cal-day-num{
+    color:#fff;background:linear-gradient(135deg,var(--pink-hi),var(--pink));
+    border-radius:999px;padding:0 4px;left:2px;top:2px;
+  }
+  .cal-cell.today{box-shadow:0 0 0 2.5px var(--pink-hi),0 3px 8px rgba(155,92,246,.20)}
+  .cal-flower-ic{width:76%;height:76%}
+  .cal-flower-ic svg{width:100%;height:100%}
+  .cal-info{
+    margin-top:12px;text-align:center;font-size:13px;color:var(--ink);font-weight:bold;
+    background:var(--card);border-radius:14px;padding:10px 14px;box-shadow:var(--shadow);
+    min-height:18px;
+  }
+  .cal-info b{color:var(--pink)}
   .treasure{
     background:linear-gradient(160deg,#FFFBEA,#FFE9A8);
     border-radius:14px;padding:8px 12px;font-size:24px;
@@ -558,10 +608,23 @@
   <section class="tab-page active" id="page-garden">
     <div class="h-title">🌷 わたしのお花畑 🌷</div>
     <div class="garden-lead" id="gardenLead">これまでに <span class="garden-count">1輪</span> さきました<br><span class="lumi-next">✨ あと 2輪 で お花畑の かざりが ふえます!</span></div>
+    <div class="mode-row" id="gardenViewRow"><button class="mode-btn active" id="viewFieldBtn" data-view="field">🌷 はなばたけ</button><button class="mode-btn" id="viewCalBtn" data-view="calendar">📅 こよみ</button></div>
+    <div id="fieldView">
     <div class="mode-row" id="sceneRow"><button class="mode-btn active" data-scene="night">🌙 よる</button><button class="mode-btn" data-scene="day">☀️ ひる</button><button class="mode-btn" data-scene="sunset">🌅 ゆうやけ</button><button class="mode-btn" data-scene="spring">🌸 はるかぜ</button></div>
     <div class="field" id="fieldBox" style="background: linear-gradient(rgb(35, 32, 85) 0%, rgb(69, 58, 140) 34%, rgb(140, 90, 168) 52%, rgb(217, 112, 155) 60%, rgb(46, 122, 82) 60%);"><div class="field-moon"></div><div class="star" style="left:2%;top:3%;animation-duration:1.2s;animation-delay:0s"></div><div class="star" style="left:63%;top:40%;animation-duration:1.6s;animation-delay:0.3s"></div><div class="star" style="left:28%;top:29%;animation-duration:2s;animation-delay:0.6s"></div><div class="star" style="left:89%;top:18%;animation-duration:2.4000000000000004s;animation-delay:0.8999999999999999s"></div><div class="star" style="left:54%;top:7%;animation-duration:2.8s;animation-delay:1.2s"></div><div class="star" style="left:19%;top:44%;animation-duration:1.2s;animation-delay:1.5s"></div><div class="star" style="left:80%;top:33%;animation-duration:1.6s;animation-delay:1.7999999999999998s"></div><div class="star" style="left:45%;top:22%;animation-duration:2s;animation-delay:0s"></div><div class="star" style="left:10%;top:11%;animation-duration:2.4000000000000004s;animation-delay:0.3s"></div><div class="star" style="left:71%;top:48%;animation-duration:2.8s;animation-delay:0.6s"></div><div class="star" style="left:36%;top:37%;animation-duration:1.2s;animation-delay:0.8999999999999999s"></div><div class="star" style="left:97%;top:26%;animation-duration:1.6s;animation-delay:1.2s"></div><div class="star" style="left:62%;top:15%;animation-duration:2s;animation-delay:1.5s"></div><div class="star" style="left:27%;top:4%;animation-duration:2.4000000000000004s;animation-delay:1.7999999999999998s"></div><div class="star" style="left:88%;top:41%;animation-duration:2.8s;animation-delay:0s"></div><div class="star" style="left:53%;top:30%;animation-duration:1.2s;animation-delay:0.3s"></div><div class="star" style="left:18%;top:19%;animation-duration:1.6s;animation-delay:0.6s"></div><div class="star" style="left:79%;top:8%;animation-duration:2s;animation-delay:0.8999999999999999s"></div><div class="star" style="left:44%;top:45%;animation-duration:2.4000000000000004s;animation-delay:1.2s"></div><div class="star" style="left:9%;top:34%;animation-duration:2.8s;animation-delay:1.5s"></div><div class="star" style="left:70%;top:23%;animation-duration:1.2s;animation-delay:1.7999999999999998s"></div><div class="star" style="left:35%;top:12%;animation-duration:1.6s;animation-delay:0s"></div><div class="field-grass" style="background:linear-gradient(180deg,#3FA268,#1B5C3A)"></div><div class="ffl lit" title="ひまわり(7/8)" style="left:3%;top:52%;width:30px;height:30px;z-index:52;animation-delay:0s"><svg viewBox="0 0 220 210" xmlns="http://www.w3.org/2000/svg"><defs><lineargradient id="pgA2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ad9834"></stop><stop offset="0.55" stop-color="#FFE04D"></stop><stop offset="1" stop-color="#ffe982"></stop></lineargradient><lineargradient id="pgB2" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#e0c544"></stop><stop offset="0.6" stop-color="#ffe466"></stop><stop offset="1" stop-color="#ffed98"></stop></lineargradient><radialgradient id="cg2"><stop offset="0" stop-color="#c8ae8e"></stop><stop offset="0.7" stop-color="#9B6B32"></stop><stop offset="1" stop-color="#745026"></stop></radialgradient><lineargradient id="sg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3FBF7E"></stop><stop offset="1" stop-color="#6FD9A0"></stop></lineargradient><lineargradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8FE8B5"></stop><stop offset="1" stop-color="#4DBF82"></stop></lineargradient></defs><g class="bloom"><path d="M110 96 C 108 140, 112 160, 110 196" stroke="url(#sg2)" stroke-width="5" fill="none" stroke-linecap="round"></path><path d="M110 150 C 92 142, 82 129, 80 116 C 97 121, 107 132, 110 150 Z" fill="url(#lg2)"></path><path d="M96 133 Q 104 141 110 150" stroke="rgba(255,255,255,0.45)" stroke-width="1" fill="none"></path><path d="M110 168 C 128 160, 138 147, 140 134 C 123 139, 113 150, 110 168 Z" fill="url(#lg2)"></path><path d="M124 151 Q 116 159 110 168" stroke="rgba(255,255,255,0.45)" stroke-width="1" fill="none"></path><g transform="translate(110,96)"><g transform="rotate(10)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(31.275654930942846)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(51.34218675821076)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(70.13653362429977)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(88.80146778201058)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(108.60242466821794)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(129.72806629619546)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(151.1114589162026)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(171.44136079841843)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(190.40507610476226)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(208.98484206466904)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(228.52682036250047)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(249.46514456262665)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(270.9104287961972)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(291.49276767908475)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(310.6601942330821)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(329.20185900717354)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(348.5000377028654)"><path d="M0 0 C 9.5 -18.599999999999998, 3.5 -50.839999999999996, 0 -62 C -3.5 -50.839999999999996, -9.5 -18.599999999999998, 0 0 Z" fill="url(#pgA2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -8.680000000000001 Q 0.6 -31 0 -53.32" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(0)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(20.850436620628564)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(40.8947911721405)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(60.09102241619985)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(79.20097852134039)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(99.0682831121453)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(119.81871086413031)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(140.74097261080172)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(160.96090719894562)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(180.27005073650815)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(199.3232280431127)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(219.01788024166697)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(239.64342970841776)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(260.60695253079814)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(280.99517845272317)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(300.44012948872137)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(319.4679060047824)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><g transform="rotate(339.0000251352436)"><path d="M0 0 C 7.6 -14.399999999999999, 2.8 -39.36, 0 -48 C -2.8 -39.36, -7.6 -14.399999999999999, 0 0 Z" fill="url(#pgB2)" stroke="rgba(90,40,60,0.10)" stroke-width="0.8"></path><path d="M0 -6.720000000000001 Q 0.48 -24 0 -41.28" stroke="rgba(255,255,255,0.45)" stroke-width="1.1" fill="none"></path></g><circle r="19" fill="url(#cg2)"></circle><circle cx="3.0" cy="0.0" r="1.5" fill="#654621"></circle><circle cx="-3.0" cy="2.7" r="1.5" fill="#654621"></circle><circle cx="0.4" cy="-5.1" r="1.5" fill="#654621"></circle><circle cx="3.7" cy="4.9" r="1.5" fill="#654621"></circle><circle cx="-7.1" cy="-1.3" r="1.5" fill="#654621"></circle><circle cx="7.0" cy="-4.4" r="1.5" fill="#654621"></circle><circle cx="-2.4" cy="9.0" r="1.5" fill="#654621"></circle><circle cx="-4.8" cy="-9.2" r="1.5" fill="#654621"></circle><circle cx="10.7" cy="3.9" r="1.5" fill="#654621"></circle><circle cx="-11.5" cy="4.8" r="1.5" fill="#654621"></circle><circle cx="5.7" cy="-12.2" r="1.5" fill="#654621"></circle><circle cx="4.4" cy="13.9" r="1.5" fill="#654621"></circle><circle cx="-13.5" cy="-7.8" r="1.5" fill="#654621"></circle><circle cx="16.3" cy="-3.6" r="1.5" fill="#654621"></circle></g></g></svg></div></div>
     <div class="encourage" id="encourageBox">きょう、さいしょの1輪が さきました🌸<br>あした ひらくと、あたらしい花が また 1輪。まいにち すこしずつ、きれいな花畑になっていきます。</div>
     <div id="treasureBox"></div>
+    </div>
+    <div id="calendarView" style="display:none">
+      <div class="cal-nav">
+        <button class="cal-nav-btn" id="calPrev" aria-label="前の月">◀</button>
+        <div class="cal-month-label" id="calMonthLabel">7月</div>
+        <button class="cal-nav-btn" id="calNext" aria-label="次の月">▶</button>
+      </div>
+      <div class="cal-weekdays" id="calWeekdays"></div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-info" id="calInfo">花のマスを タップすると ここに 花言葉が でます</div>
+    </div>
   </section>
 </main>
 
@@ -1012,7 +1075,7 @@ navBtns.forEach(function(b){
     b.classList.add("active");
     document.querySelectorAll(".tab-page").forEach(function(p){p.classList.remove("active")});
     document.getElementById("page-"+b.dataset.tab).classList.add("active");
-    if(b.dataset.tab==="garden") renderGarden();
+    if(b.dataset.tab==="garden") renderGardenTab();
   });
 });
 
@@ -1359,7 +1422,95 @@ function renderGarden(){
     tb.innerHTML="";
   }
 }
-if(document.getElementById("page-garden").classList.contains("active")) renderGarden();
+
+/* ---------- お花畑:こよみ表示 ---------- */
+var gardenView = "field";
+try{ gardenView = localStorage.getItem("hanagoyomi_gardenview") || "field"; }catch(e){}
+var calYear = now.getFullYear();
+var calMonth = now.getMonth()+1;
+var WEEKDAYS_JA = ["日","月","火","水","木","金","土"];
+function pad2(n){ return String(n).padStart(2,"0"); }
+
+var viewFieldBtn = document.getElementById("viewFieldBtn");
+var viewCalBtn = document.getElementById("viewCalBtn");
+var fieldViewBox = document.getElementById("fieldView");
+var calendarViewBox = document.getElementById("calendarView");
+var calPrevBtn = document.getElementById("calPrev");
+var calNextBtn = document.getElementById("calNext");
+
+function applyGardenView(){
+  viewFieldBtn.classList.toggle("active", gardenView==="field");
+  viewCalBtn.classList.toggle("active", gardenView==="calendar");
+  fieldViewBox.style.display = gardenView==="field" ? "" : "none";
+  calendarViewBox.style.display = gardenView==="calendar" ? "" : "none";
+}
+function renderGardenTab(){
+  renderGarden();
+  if(gardenView==="calendar") renderCalendar();
+}
+viewFieldBtn.addEventListener("click", function(){
+  gardenView = "field";
+  try{ localStorage.setItem("hanagoyomi_gardenview","field"); }catch(e){}
+  applyGardenView();
+  renderGardenTab();
+});
+viewCalBtn.addEventListener("click", function(){
+  gardenView = "calendar";
+  try{ localStorage.setItem("hanagoyomi_gardenview","calendar"); }catch(e){}
+  applyGardenView();
+  renderGardenTab();
+});
+
+function renderCalendar(){
+  document.getElementById("calMonthLabel").textContent = calYear+"年 "+calMonth+"月";
+  var wdRow = document.getElementById("calWeekdays");
+  if(!wdRow.children.length){
+    wdRow.innerHTML = WEEKDAYS_JA.map(function(w){ return '<div class="cal-wd">'+w+'</div>'; }).join("");
+  }
+  var todayY = now.getFullYear(), todayM = now.getMonth()+1, todayD = now.getDate();
+  calNextBtn.disabled = (calYear===todayY && calMonth===todayM);
+
+  var firstDow = new Date(calYear, calMonth-1, 1).getDay();
+  var daysInMonth = new Date(calYear, calMonth, 0).getDate();
+  var html = "";
+  for(var i=0;i<firstDow;i++){ html += '<div class="cal-cell empty"></div>'; }
+  for(var d=1; d<=daysInMonth; d++){
+    var dateKey = calYear+"-"+pad2(calMonth)+"-"+pad2(d);
+    var mdKey = data.days[dateKey];
+    var fd = mdKey ? FLOWERS[mdKey] : null;
+    var isToday = (calYear===todayY && calMonth===todayM && d===todayD);
+    var cls = "cal-cell" + (fd?" has-flower":"") + (isToday?" today":"");
+    var html2 = '<span class="cal-day-num">'+d+'</span>';
+    if(fd){
+      html2 = '<div class="cal-flower-ic">'+drawFlower(fd.art)+'</div>' + html2;
+    }
+    html += '<div class="'+cls+'"'+
+      (fd?(' data-name="'+fd.name.replace(/"/g,"&quot;")+'" data-kotoba="'+fd.kotoba.replace(/"/g,"&quot;")+'"'):'')+
+      '>'+html2+'</div>';
+  }
+  var grid = document.getElementById("calGrid");
+  grid.innerHTML = html;
+  grid.querySelectorAll(".cal-cell.has-flower").forEach(function(cell){
+    cell.addEventListener("click", function(){
+      document.getElementById("calInfo").innerHTML =
+        "<b>"+cell.dataset.name+"</b> 花言葉「"+cell.dataset.kotoba+"」";
+    });
+  });
+}
+calPrevBtn.addEventListener("click", function(){
+  calMonth--;
+  if(calMonth<1){ calMonth=12; calYear--; }
+  renderCalendar();
+});
+calNextBtn.addEventListener("click", function(){
+  if(calYear===now.getFullYear() && calMonth===now.getMonth()+1) return;
+  calMonth++;
+  if(calMonth>12){ calMonth=1; calYear++; }
+  renderCalendar();
+});
+applyGardenView();
+
+if(document.getElementById("page-garden").classList.contains("active")) renderGardenTab();
 </script>
 
 
