@@ -415,6 +415,10 @@
     min-height:18px;
   }
   .cal-info b{color:var(--pink)}
+  /* aspect-ratio非対応ブラウザ(古いiOS Safari等)ではマスの高さを固定 */
+  @supports not (aspect-ratio: 1 / 1){
+    .cal-cell{height:46px}
+  }
   .treasure{
     background:linear-gradient(160deg,#FFFBEA,#FFE9A8);
     border-radius:14px;padding:8px 12px;font-size:24px;
@@ -1448,17 +1452,20 @@ function renderGardenTab(){
   renderGarden();
   if(gardenView==="calendar") renderCalendar();
 }
-viewFieldBtn.addEventListener("click", function(){
-  gardenView = "field";
-  try{ localStorage.setItem("hanagoyomi_gardenview","field"); }catch(e){}
+function setGardenView(v){
+  if(v!=="field" && v!=="calendar") return;
+  gardenView = v;
+  try{ localStorage.setItem("hanagoyomi_gardenview", v); }catch(e){}
   applyGardenView();
   renderGardenTab();
-});
-viewCalBtn.addEventListener("click", function(){
-  gardenView = "calendar";
-  try{ localStorage.setItem("hanagoyomi_gardenview","calendar"); }catch(e){}
-  applyGardenView();
-  renderGardenTab();
+}
+/* ボタン個別ではなく行への委譲でバインド(実機タップの取りこぼし対策) */
+document.getElementById("gardenViewRow").addEventListener("click", function(ev){
+  var t = ev.target;
+  while(t && t!==this){
+    if(t.getAttribute && t.getAttribute("data-view")){ setGardenView(t.getAttribute("data-view")); return; }
+    t = t.parentNode;
+  }
 });
 
 function renderCalendar(){
