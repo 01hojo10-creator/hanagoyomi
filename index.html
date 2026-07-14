@@ -190,6 +190,14 @@
 
   /* ---- あそぶ(ミニゲーム) ---- */
   .game-lead{text-align:center;color:var(--sub);font-size:14px;font-weight:bold;margin-bottom:10px}
+  .sound-row{display:flex;justify-content:flex-end;margin:-4px 2px 8px}
+  .sound-toggle{
+    appearance:none;border:2px solid #D9CFF0;background:rgba(255,255,255,.9);color:var(--sub);
+    border-radius:999px;padding:6px 13px;font-family:inherit;font-size:13px;font-weight:bold;
+    cursor:pointer;box-shadow:0 3px 8px rgba(98,75,140,.12)
+  }
+  .sound-toggle[aria-pressed="true"]{border-color:#83D9AF;background:#ECFFF5;color:#257A52}
+  .sound-toggle:focus-visible{outline:3px solid rgba(77,201,255,.45);outline-offset:2px}
   .play-area{
     position:relative;
     height:340px;
@@ -619,6 +627,7 @@
   <section class="tab-page" id="page-game">
     <div class="h-title">🌸 おはなキャッチ 🌸</div>
     <div class="game-lead">かごを うごかして、おちてくる おはなを うけとめよう!<br>🌟きらきらの おはなは 5コイン!</div>
+    <div class="sound-row"><button class="sound-toggle" id="bgmToggle" type="button" aria-pressed="true">🎵 BGM オン</button></div>
     <div class="play-area" id="playArea">
       <div class="play-hud"><span id="gameScore">🌸 0</span><span id="gameTime">⏱ 20</span></div>
       <div class="game-center" id="gameCenter">
@@ -1109,6 +1118,77 @@ if(data.lastBonus !== tkey){
 }
 
 /* ---------- タブ ---------- */
+/* ---------- ゲームの音 ---------- */
+var audioCtx=null, bgmTimer=null, bgmStep=0, bgmOn=true;
+try{ bgmOn = localStorage.getItem("hanagoyomi_bgm") !== "off"; }catch(e){}
+
+function getAudioContext(){
+  if(!audioCtx){
+    var AudioContextClass=window.AudioContext||window.webkitAudioContext;
+    if(!AudioContextClass) return null;
+    audioCtx=new AudioContextClass();
+  }
+  if(audioCtx.state==="suspended") audioCtx.resume().catch(function(){});
+  return audioCtx;
+}
+function tone(freq,duration,volume,type,delay){
+  var ctx=getAudioContext();
+  if(!ctx) return;
+  var start=ctx.currentTime+(delay||0);
+  var osc=ctx.createOscillator();
+  var gain=ctx.createGain();
+  osc.type=type||"sine";
+  osc.frequency.setValueAtTime(freq,start);
+  gain.gain.setValueAtTime(0.0001,start);
+  gain.gain.exponentialRampToValueAtTime(volume||0.04,start+0.02);
+  gain.gain.exponentialRampToValueAtTime(0.0001,start+duration);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(start); osc.stop(start+duration+0.03);
+}
+function playBgmNote(){
+  if(!bgmOn||!gameOn) return;
+  var melody=[523.25,659.25,783.99,659.25,587.33,698.46,783.99,698.46];
+  var bass=[261.63,261.63,293.66,293.66,220,220,246.94,246.94];
+  var i=bgmStep%melody.length;
+  tone(melody[i],0.48,0.027,"sine",0);
+  if(i%2===0) tone(bass[i],0.72,0.018,"triangle",0);
+  bgmStep++;
+}
+function startBgm(){
+  stopBgm();
+  if(!bgmOn) return;
+  getAudioContext();
+  bgmStep=0; playBgmNote();
+  bgmTimer=setInterval(playBgmNote,520);
+}
+function stopBgm(){
+  if(bgmTimer){ clearInterval(bgmTimer); bgmTimer=null; }
+}
+function playCatchSound(rare){
+  tone(rare?783.99:659.25,0.16,0.055,"sine",0);
+  tone(rare?1174.66:880,0.22,0.045,"sine",0.07);
+}
+function playGachaStartSound(){
+  tone(392,0.16,0.04,"triangle",0);
+  tone(523.25,0.18,0.04,"triangle",0.10);
+}
+function playGachaRevealSound(rare){
+  var notes=rare?[659.25,783.99,987.77,1318.51]:[523.25,659.25,783.99];
+  for(var i=0;i<notes.length;i++) tone(notes[i],0.30,rare?0.05:0.04,"sine",i*0.09);
+}
+var bgmToggle=document.getElementById("bgmToggle");
+function updateBgmButton(){
+  bgmToggle.setAttribute("aria-pressed",bgmOn?"true":"false");
+  bgmToggle.textContent=bgmOn?"🎵 BGM オン":"🔇 BGM オフ";
+}
+bgmToggle.addEventListener("click",function(){
+  bgmOn=!bgmOn;
+  try{ localStorage.setItem("hanagoyomi_bgm",bgmOn?"on":"off"); }catch(e){}
+  updateBgmButton();
+  if(gameOn&&bgmOn) startBgm(); else stopBgm();
+});
+updateBgmButton();
+
 var navBtns = document.querySelectorAll("nav button");
 navBtns.forEach(function(b){
   b.addEventListener("click", function(){
@@ -1209,6 +1289,7 @@ function gameTick(t){
       scoreEl.textContent="🌸 "+gScore;
       var rect=playArea.getBoundingClientRect();
       floatCoin("+"+pts, rect.left+basketX, rect.top+catchY);
+      playCatchSound(d.rare);
       binEl.classList.remove("bump"); void binEl.offsetWidth; binEl.classList.add("bump");
       d.el.classList.add("pop");
       (function(el){setTimeout(function(){el.remove()},360)})(d.el);
@@ -1229,6 +1310,7 @@ function clearDrops(){
 }
 function endGame(){
   gameOn=false;
+  stopBgm();
   clearInterval(gTimer);
   if(gRaf) cancelAnimationFrame(gRaf);
   clearDrops();
@@ -1245,6 +1327,7 @@ function endGame(){
 function startGame(){
   clearDrops();
   gameOn=true; gScore=0; gLeft=GAME_SEC; lastT=0; spawnAcc=0;
+  startBgm();
   scoreEl.textContent="🌸 0";
   timeEl.textContent="⏱ "+gLeft;
   gameCenter.style.display="none";
@@ -1287,6 +1370,7 @@ function sparkleBurst(){
 }
 pullBtn.addEventListener("click", function(){
   if(data.coins < GACHA_COST){ updateGachaUI(); return; }
+  playGachaStartSound();
   data.coins -= GACHA_COST;
   saveData(data);
   updateHUD();
@@ -1304,6 +1388,7 @@ pullBtn.addEventListener("click", function(){
       '<div class="card-title">'+item.t+'</div>'+
       '<div class="card-text">'+item.x+'</div>';
     card.classList.add("flipped");
+    playGachaRevealSound(isRare);
     if(isRare){
       sparkleBurst();
       confettiBurst();
